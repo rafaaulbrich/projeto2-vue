@@ -1,6 +1,6 @@
 <script setup>
-
 import { ref } from 'vue'
+
 const produtos = ref([
   {
     id: 1,
@@ -55,25 +55,36 @@ const produtos = ref([
     id: 8,
     nome: 'Bermuda',
     preco: 79.9,
-    quant: 1
+    quant: 1,
+    img: 'https://img.ltwebstatic.com/gspCenter/goodsImage/2022/10/10/5445485991_1005024/98FE5FA6BD05192CC2E0A8482B0BBD7F_thumbnail_600x.jpg'
   },
   {
     id: 9,
     nome: 'Calcinha',
     preco: 19.9,
-    quant: 1
+    quant: 1,
+    img: 'https://img.ltwebstatic.com/images3_pi/2021/08/11/1628647984061320a79ab1f4054b1e93e30e89d368_thumbnail_600x.webp'
   },
   {
     id: 10,
     nome: 'Sutiã',
     preco: 29.9,
     quant: 1,
+    img: 'https://img.ltwebstatic.com/images3_pi/2020/07/24/1595566126b0e86e8be48ae4f01a61ae74934eb027_thumbnail_600x.webp'
   },
   {
     id: 11,
-    nome: 'Meia',
-    preco: 9.9,
+    nome: 'Brinco',
+    preco: 15.99,
     quant: 1,
+    img: 'https://img.ltwebstatic.com/images3_pi/2021/11/29/1638174388f2c5d01a3a08d65da9320b143bf32b1d_thumbnail_600x.webp'
+  },
+  {
+    id: 12,
+    nome: 'Colar',
+    preco: 10.99,
+    quant: 1,
+    img: 'https://img.ltwebstatic.com/images3_pi/2022/10/27/166685854459b02edcff5682b46bbf1fdaec2c41d3_thumbnail_600x.webp'
   }
 ])
 
@@ -103,8 +114,9 @@ function addCarrinho(i) {
 </script>
 
 <template>
-  <div>
-    <button @click="carrinhoCompras" class="carrinho">Carrinho</button>
+  <div class="carrinho">
+    <img src="https://cdn.icon-icons.com/icons2/1760/PNG/512/4105931-add-to-cart-buy-cart-sell-shop-shopping-cart_113919.png">
+    <button @click="carrinhoCompras">Carrinho</button>
   </div>
   <div class="produtos">
     <div v-for="(produto, i) in produtos" :key="i" class="card-produto">
@@ -115,7 +127,7 @@ function addCarrinho(i) {
       <div class="botes">
         <button @click="addPeca(i)">+</button>
         <button @click="removerPeca(i)">-</button>
-        <button @click="addCarrinho(i)">Adicionar ao carrinho</button>
+        <button @click="addCarrinho(i)" class="addCarrinho">Adicionar ao carrinho</button>
       </div>
     </div>
   </div>
@@ -128,40 +140,57 @@ function addCarrinho(i) {
 <style scoped>
 .card-produto {
   width: 300px;
-  height: 350px;
+  height: 450px;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .card-produto img {
+  margin-top: 30px;
   width: 70%;
-  
 }
-
 .produtos {
   margin: 200px;
   margin-top: 30px;
+  margin-left: 10%;
   display: grid;
   grid-template-columns: repeat(4, 10fr);
-  grid-auto-rows: 400px;
+  grid-auto-rows: 40%;
+}
+.carrinho {
+  margin-left: 10%;
+  padding: 15px;
+  background-color: rgb(190, 185, 185);
+  border-radius: 5px;
+  border: 1px solid gray;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+}
+.carrinho:hover{
+  background-color:rgb(230, 227, 227); 
 }
 
-.carrinho {
-  padding: 8px;
-  background-color:rgba(88, 84, 84, 0.788);
-  border-radius: 5px; 
-  border: 0;
+p {
+  color: rgb(78, 78, 78);
 }
 
 h2, p {
   margin: 4px;
 }
 
-.carrinho:hover{
-  background-color:rgba(131, 123, 123, 0.637); 
+button {
+  background-color:rgb(190, 185, 185);
+  border-radius: 4px;
+  border: 1px solid gray;
+  font-family: 'Times New Roman', Times, serif;
+  margin: 2px;
+}
+
+button:hover {
+  background-color: rgb(230, 227, 227);
 }
 
 </style>
