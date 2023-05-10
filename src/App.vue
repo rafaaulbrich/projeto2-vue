@@ -93,6 +93,10 @@ const carrinho = ref({
   valorTotal: 0,
 })
 
+function carrinhoCompras() {
+  
+}
+
 function addPeca(pos) {
     produtos.value[pos].quant++
 }
@@ -114,10 +118,10 @@ function addCarrinho(i) {
 </script>
 
 <template>
-  <div class="carrinho">
-    <img src="https://cdn.icon-icons.com/icons2/1760/PNG/512/4105931-add-to-cart-buy-cart-sell-shop-shopping-cart_113919.png">
-    <button @click="carrinhoCompras">Carrinho</button>
-  </div>
+    <button @click="carrinhoCompras" class="carrinho">
+      Carrinho
+      <img src="https://cdn.icon-icons.com/icons2/1760/PNG/512/4105931-add-to-cart-buy-cart-sell-shop-shopping-cart_113919.png" class="img-carrinho">
+    </button>
   <div class="produtos">
     <div v-for="(produto, i) in produtos" :key="i" class="card-produto">
       <img :src="produto.img">
@@ -127,11 +131,10 @@ function addCarrinho(i) {
       <div class="botes">
         <button @click="addPeca(i)">+</button>
         <button @click="removerPeca(i)">-</button>
-        <button @click="addCarrinho(i)" class="addCarrinho">Adicionar ao carrinho</button>
+        <button @click="addCarrinho(i)">Adicionar ao carrinho</button>
       </div>
     </div>
   </div>
-  <hr>
   <div>
     {{ carrinho }}
   </div>
@@ -157,20 +160,30 @@ function addCarrinho(i) {
   margin-top: 30px;
   margin-left: 10%;
   display: grid;
-  grid-template-columns: repeat(4, 10fr);
+  grid-template-columns: repeat(4, 27%);
   grid-auto-rows: 40%;
 }
 .carrinho {
+  width: 8%;
   margin-left: 10%;
-  padding: 15px;
+  padding: 10px;
   background-color: rgb(190, 185, 185);
   border-radius: 5px;
   border: 1px solid gray;
   font-family: 'Times New Roman', Times, serif;
   font-size: 20px;
+  transition: all 0.2s;
 }
 .carrinho:hover{
+  transition: 0.2s;
+  transform: scale(1.1);
   background-color:rgb(230, 227, 227); 
+}
+
+
+.img-carrinho {
+  width: 20px;
+  height: 20px;
 }
 
 p {
