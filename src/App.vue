@@ -111,7 +111,15 @@ function addCarrinho(i) {
 
 function removerPecaCarrinho(i) {
   carrinho.value.items.splice(i, 1)
+  totalCarrinho()
 }
+
+function totalCarrinho(){
+  carrinho.value.valorTotal = 0
+    for (let item of carrinho.value.items){
+      carrinho.value.valorTotal += item.quant * item.preco
+    }
+  }
 
 const displayModal = ref('none')
 
@@ -143,15 +151,19 @@ const displayModal = ref('none')
   <div :style="{'display': displayModal}" class="modal">
     <div class="modal-content">
       <span class="close" @click="displayModal='none'">&times;</span>
-      <h2>Itens adicionados</h2>
+      <h2 class="itens">Itens adicionados</h2>
     <ul>
-      <li v-for="item in carrinho.items" :key="item.id">
+      <li v-for="(item, i) in carrinho.items" :key="item.id">
         <h3>{{ item.nome }}</h3>
         <p class="precoCarrinho">
           Preço: {{ item.preco.toFixed(2).replace('.', ',') }} | Quantidade:
           {{ item.quant }} (Total: {{ (item.preco * item.quant).toFixed(2).replace('.', ',') }})
         </p>
-        <button @click="removerPecaCarrinho">Remover</button>
+        <div>
+          <button @click="removerPecaCarrinho(i)" class="remover">Remover
+          <img src="https://cdn.icon-icons.com/icons2/931/PNG/512/delete_remove_bin_icon-icons.com_72400.png" class="img-lixeira">
+          </button>
+        </div>
         <hr />
       </li>
     </ul>
@@ -161,6 +173,7 @@ const displayModal = ref('none')
 </template>
 
 <style scoped>
+
 li {
   list-style-type: none;
 }
@@ -205,17 +218,32 @@ li {
   width: 20px;
   height: 20px;
 }
-
+.itens {
+  text-align: center;
+}
+.remover {
+  background-color: rgb(190, 185, 185);
+  border-radius: 5px;
+  border: 1px solid gray;
+  font-family: 'Times New Roman', Times, serif;
+}
+.img-lixeira {
+  width: 25px;
+  height: 25px;
+}
 .precoCarrinho {
   color: black;
+}
+
+h4{
+  margin-left: 85%;
 }
 
 p {
   color: rgb(78, 78, 78);
 }
 
-h2,
-p {
+h2, p {
   margin: 4px;
 }
 
@@ -244,14 +272,15 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.4);
 }
 .modal-content {
-  background-color: #fefefe;
+  background-color: #f8f8f8;;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid gray;
+  border-radius: 10px;
   width: 80%;
 }
 .close {
-  color: #aaaaaa;
+  color: rgb(190, 185, 185);
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -262,4 +291,5 @@ button:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
 </style>
