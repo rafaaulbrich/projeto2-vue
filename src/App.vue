@@ -26,7 +26,7 @@ const produtos = ref([
   {
     id: 4,
     nome: 'Sapato',
-    preco: 199.9, 
+    preco: 199.9,
     quant: 1,
     img: 'https://img.ltwebstatic.com/images3_pi/2022/05/31/16539936817b8d90d910892f55bcf2d1cff7f6feb2_thumbnail_600x.webp'
   },
@@ -90,44 +90,49 @@ const produtos = ref([
 
 const carrinho = ref({
   items: [],
-  valorTotal: 0,
+  valorTotal: 0
 })
 
-function carrinhoCompras() {
-  
-}
-
 function addPeca(pos) {
-    produtos.value[pos].quant++
+  produtos.value[pos].quant++
 }
 
 function removerPeca(pos) {
   if (produtos.value[pos].quant > 1) {
     produtos.value[pos].quant--
   }
-
 }
 
 function addCarrinho(i) {
   const produto = produtos.value[i]
-  carrinho.value.items.push({...produto, total: produto.preco * produto.quant})
+  carrinho.value.items.push({ ...produto, total: produto.preco * produto.quant })
   carrinho.value.valorTotal += produto.preco * produto.quant
 }
 
+function removerPecaCarrinho(i) {
+  carrinho.value.items.splice(i, 1)
+}
+
+const displayModal = ref('none')
 
 </script>
 
 <template>
-    <button @click="carrinhoCompras" class="carrinho">
+  <div>
+    <button @click="displayModal='block'" class="carrinho">
       Carrinho
-      <img src="https://cdn.icon-icons.com/icons2/1760/PNG/512/4105931-add-to-cart-buy-cart-sell-shop-shopping-cart_113919.png" class="img-carrinho">
+      <img
+        src="https://cdn.icon-icons.com/icons2/1760/PNG/512/4105931-add-to-cart-buy-cart-sell-shop-shopping-cart_113919.png"
+        class="img-carrinho"
+      />
     </button>
+  </div>
   <div class="produtos">
     <div v-for="(produto, i) in produtos" :key="i" class="card-produto">
-      <img :src="produto.img">
+      <img :src="produto.img" />
       <h2>{{ produto.nome }}</h2>
-      <p> R$ {{ produto.preco.toFixed(2).replace('.',',') }}</p>
-      <p> Quantidade: {{ produto.quant }}</p>
+      <p>R$ {{ produto.preco.toFixed(2).replace('.', ',') }}</p>
+      <p>Quantidade: {{ produto.quant }}</p>
       <div class="botes">
         <button @click="addPeca(i)">+</button>
         <button @click="removerPeca(i)">-</button>
@@ -135,12 +140,30 @@ function addCarrinho(i) {
       </div>
     </div>
   </div>
-  <div>
-    {{ carrinho }}
+  <div :style="{'display': displayModal}" class="modal">
+    <div class="modal-content">
+      <span class="close" @click="displayModal='none'">&times;</span>
+      <h2>Itens adicionados</h2>
+    <ul>
+      <li v-for="item in carrinho.items" :key="item.id">
+        <h3>{{ item.nome }}</h3>
+        <p class="precoCarrinho">
+          Preço: {{ item.preco.toFixed(2).replace('.', ',') }} | Quantidade:
+          {{ item.quant }} (Total: {{ (item.preco * item.quant).toFixed(2).replace('.', ',') }})
+        </p>
+        <button @click="removerPecaCarrinho">Remover</button>
+        <hr />
+      </li>
+    </ul>
+    <h4>Total a pagar: R$ {{ carrinho.valorTotal.toFixed(2).replace('.', ',') }}</h4>
+    </div>
   </div>
 </template>
 
 <style scoped>
+li {
+  list-style-type: none;
+}
 .card-produto {
   width: 300px;
   height: 450px;
@@ -150,7 +173,6 @@ function addCarrinho(i) {
   flex-direction: column;
   align-items: center;
 }
-
 .card-produto img {
   margin-top: 30px;
   width: 70%;
@@ -174,28 +196,31 @@ function addCarrinho(i) {
   font-size: 20px;
   transition: all 0.2s;
 }
-.carrinho:hover{
+.carrinho:hover {
   transition: 0.2s;
   transform: scale(1.1);
-  background-color:rgb(230, 227, 227); 
+  background-color: rgb(230, 227, 227);
 }
-
-
 .img-carrinho {
   width: 20px;
   height: 20px;
+}
+
+.precoCarrinho {
+  color: black;
 }
 
 p {
   color: rgb(78, 78, 78);
 }
 
-h2, p {
+h2,
+p {
   margin: 4px;
 }
 
 button {
-  background-color:rgb(190, 185, 185);
+  background-color: rgb(190, 185, 185);
   border-radius: 4px;
   border: 1px solid gray;
   font-family: 'Times New Roman', Times, serif;
@@ -205,5 +230,36 @@ button {
 button:hover {
   background-color: rgb(230, 227, 227);
 }
-
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>
